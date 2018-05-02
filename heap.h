@@ -12,7 +12,7 @@
  */
 
 template <class T>
-class Heap{
+class Heap {
 	std::vector<T> data;
 	//std::function<bool(T,T)> comp;
 	inline bool bounds(const size_t &dex){return ((dex<data.size())&&(dex>=0));}
@@ -26,13 +26,16 @@ class Heap{
 		data[a] = data[b];
 		data[b] = temp;
 	}
+    bool comp(T a, T b) {
+        return a -> get_count() < b -> get_count();
+    }
 	void sift_up(const size_t &dex){
 		if(dex==0) return;
 		assert(bounds(dex));
 		size_t parent = (dex-1)/2;
-		if(data[dex]<data[parent]){
+		if(data[dex] -> get_count() < data[parent] -> get_count()){
 			swapper(dex,parent);
-			assert(data[parent]<data[dex]);
+			assert(data[parent] -> get_count() < data[dex] -> get_count());
 			sift_up(parent);
 		}
 		return;
@@ -62,7 +65,7 @@ public:
 	}
 	void print(){
 		for(T n:data){
-			std::cout << n << std::endl;
+			std::cout << n -> get_count() << std::endl;
 		}
 	}
 	T& top(){return data.front();}
@@ -78,4 +81,7 @@ public:
 		sift_down(0);
 		return temp;
 	}
+    int get_size() {
+        return data.size();
+    }
 };

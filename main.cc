@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
+#include "heap.h"
+#include "node.h"
 
 using namespace std;
 
@@ -12,6 +14,7 @@ int main() {
     array<int, 128> chars = {0};
     char letter;
     string filename;
+    Heap<Node*> elements;
 
     // cout << "Enter your file path: ";
     // getline(cin, filename);
@@ -31,8 +34,23 @@ int main() {
     }
 
     for (auto it = map.begin(); it != map.end(); it++) {
-        if (it -> second != 0)
-            cout << it -> first << ": " << it -> second << endl;
+         if (it -> second != 0) {
+             // cout << it -> first << ": " << it -> second << endl;
+             // Node push_node(it -> first, it -> second);
+             elements.push(new Node(it -> first, it -> second));
+         }
+    }
+
+    elements.print();
+
+    while (elements.get_size() > 1) {
+         Node *uno = elements.pop();
+         Node *dos = elements.pop();
+         int sum = uno -> get_count() + dos -> get_count();
+         // ~ represents the node that holds the sum of the two popped nodes
+         unsigned char holder = '~';
+
+         elements.push(new Node(holder, sum, uno, dos));
     }
 
     return 0;

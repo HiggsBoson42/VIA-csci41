@@ -1,10 +1,9 @@
 #pragma once
 #include <vector>
 #include <iostream>
-#inlcude <memory>
+#include <memory>
 #include <assert.h>
-#include <stdexpect>
-
+#include <stdexcept>
 
 /*NOTES:
  *Either requries less than operator or a comparsion function to be give to constructor
@@ -80,20 +79,3 @@ public:
 		return temp;
 	}
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

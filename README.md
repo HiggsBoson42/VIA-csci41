@@ -1,9 +1,9 @@
 # Cheerocracy: Huffman Coding
 ## Project: Server and Client for a Public Domain Books Database
 ### Core Tasks
-- Shipp, Izaak: Executive Responsibilities/Team Autocrat, Encoding, Decoding, and Writing of Files, Database of Books
+- Shipp, Izaak: Executive Responsibilities/Team Autocrat, Encoding, Decoding, and Writing of Files, Enabling Human/Program Interaction(UI)
 - To, Van: Creation of Efficent Compression Codes/Huffman Tree, Networking between Server and Client
-- Garcia, Alex: Creation of Statistical Data from Files/Histogram, Enabling Human/Program Interaction(UI)
+- Garcia, Alex: Creation of Statistical Data from Files/Histogram, Database of Books
 - All Members: Find Public Domain Books for Database
 
 ### Time Permitting Tasking:

@@ -1,11 +1,11 @@
 #include "bitqueue.h"
 
-void bit_buffer::encode(const array<coding::code,256> &dict, stringstream &text){
+void bit_buffer::encode(const array<cipher::encoding,256> &dict, stringstream &text){
 	const uint32_t NIN = 63;
 	const uint64_t ADDITIVE_IDENITY = 0;
 	const uint8_t STOP = 4;//This is the EOT character
 	uint64_t temp, ktemp = 0;
-	coding::code mode;
+	cipher::encoding mode;
 	char dolt;
 	uint8_t ctemp;
 	uint32_t count = 0;

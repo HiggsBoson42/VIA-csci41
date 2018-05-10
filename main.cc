@@ -1,12 +1,27 @@
+// TODO: sym: turn char letter to string
 #include <iostream>
+#include <algorithm>
 #include <array>
+#include <vector>
 #include <fstream>
 #include <string>
 #include <unordered_map>
-#include "heap.h"
 #include "node.h"
 
 using namespace std;
+
+void walk(Node*, int);
+
+struct sym {
+    char letter = '\0';
+    uint32_t size = 0; // how many levels down the tree
+};
+
+void levels(Node*, uint32_t, vector<sym>&);
+
+bool comp(Node *a, Node *b) {
+    return a -> get_count() < b -> get_count();
+}
 
 int main() {
     ifstream my_file;
@@ -14,7 +29,8 @@ int main() {
     array<int, 128> chars = {0};
     char letter;
     string filename;
-    Heap<Node*> elements;
+    vector<Node*> elements;
+    vector<sym> char_levels;
 
     // cout << "Enter your file path: ";
     // getline(cin, filename);
@@ -35,23 +51,50 @@ int main() {
 
     for (auto it = map.begin(); it != map.end(); it++) {
          if (it -> second != 0) {
-             // cout << it -> first << ": " << it -> second << endl;
-             // Node push_node(it -> first, it -> second);
-             elements.push(new Node(it -> first, it -> second));
+             elements.push_back(new Node(it -> first, it -> second));
          }
     }
+    
+    while (elements.size() > 1) {
+        sort(elements.begin(), elements.end(), comp);
+        int sum = elements.at(0) -> get_count() + elements.at(1) -> get_count();
+        // '~' represents the node that holds the sum of the two popped nodes
+        unsigned char holder = '~';
 
-    elements.print();
-
-    while (elements.get_size() > 1) {
-         Node *uno = elements.pop();
-         Node *dos = elements.pop();
-         int sum = uno -> get_count() + dos -> get_count();
-         // ~ represents the node that holds the sum of the two popped nodes
-         unsigned char holder = '~';
-
-         elements.push(new Node(holder, sum, uno, dos));
+        elements.push_back(new Node(holder, sum, elements.at(0), elements.at(1)));
+        elements.erase(elements.begin(), elements.begin() + 2);
     }
+     
+    walk(elements.at(0), 0);
+    levels(elements.at(0), 0, char_levels);
+    for (size_t i = 0; i < char_levels.size(); i++) {
+        cout << char_levels.at(i).letter << ": " << char_levels.at(i).size << endl;
+    }
+    cout << "size:" << char_levels.size() << endl;
 
     return 0;
+}
+
+// traverse thru the tree and get characters' position levels
+void levels(Node *t, uint32_t l, vector<sym> &symbols) {
+    if (t != nullptr) {
+        if (t -> get_letter() != '~') { 
+            cout << t -> get_letter() << "::: " << l << endl;
+            symbols.push_back({t -> get_letter(), l});
+        }
+        levels(t -> get_left(), l + 1, symbols);
+        levels(t -> get_right(), l + 1, symbols);
+    }
+}
+
+// traverse thru the tree and print letters and their counts
+void walk(Node *t, int spaces) {
+    if (t != nullptr) {
+        for (size_t i = 0; i < spaces; i++) {
+            cout << ' ';
+        }
+        cout << t -> get_letter() << ": " << t -> get_count () << endl;
+        walk(t -> get_left(), spaces + 1);
+        walk(t -> get_right(), spaces + 1);
+    }
 }

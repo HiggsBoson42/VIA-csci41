@@ -1,7 +1,7 @@
 #include "bitqueue.h"
 #include <fstream>
 using namespace std;
-void bit_buffer::encode(const array<cipher::encoding,256> &dict, stringstream &text){
+void bit_buffer::encode(const array<cipher::encoding,128> &dict, stringstream &text){
 	const uint32_t NIN = 63;
 	const uint64_t ADDITIVE_IDENITY = 0;
 	const uint8_t STOP = 4;//This is the EOT character

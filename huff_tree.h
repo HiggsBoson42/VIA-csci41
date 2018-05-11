@@ -40,7 +40,7 @@ class huff_tree{
 	huff_tree() : root(make_node()) {}
 	void insert(vector<sym>&);
 	void get_coding_info(deque<string>&,vector<cipher::code_size>&);
-	void gen_code_sizes();
+	//void gen_code_sizes();
 	//void reset();
 };
 /*bool operator<(const shared_ptr<hub> &lhs, const shared_ptr<hub> &rhs){

@@ -31,7 +31,7 @@ class bit_buffer{
 	void get_bit(uint64_t& out, const size_t &amount);
 	void get_bit(uint64_t& out);
 	public:
-	void encode(const array<cipher::encoding,256> &dict, stringstream &text);
+	void encode(const array<cipher::encoding,128> &dict, stringstream &text);
 	void decode(/*stringstream&,*/string name, cipher::decode_table&);
 	
 };

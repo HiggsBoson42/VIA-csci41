@@ -3,16 +3,18 @@
 #include <iostream>
 #include <memory>
 #include <assert.h>
+#include "hub.h" //UGH
 #include <stdexcept>
+
 
 /*NOTES:
  *Either requries less than operator or a comparsion function to be give to constructor
- *For set_comp either write a function above that returns a boolean and takes two different type T varibles as arguments 
+ *For set_comp either write a function above that returns a boolean and takes two different type T varibles as arguments
  *Or use a lambda expression, I suggest the lambda expression
  */
 
 template <class T>
-class Heap {
+class Heap{
 	std::vector<T> data;
 	//std::function<bool(T,T)> comp;
 	inline bool bounds(const size_t &dex){return ((dex<data.size())&&(dex>=0));}
@@ -26,16 +28,13 @@ class Heap {
 		data[a] = data[b];
 		data[b] = temp;
 	}
-    bool comp(T a, T b) {
-        return a -> get_count() < b -> get_count();
-    }
 	void sift_up(const size_t &dex){
 		if(dex==0) return;
 		assert(bounds(dex));
 		size_t parent = (dex-1)/2;
-		if(data[dex] -> get_count() < data[parent] -> get_count()){
+		if(data[dex]<data[parent]){
 			swapper(dex,parent);
-			assert(data[parent] -> get_count() < data[dex] -> get_count());
+			assert(data[parent]<data[dex]);
 			sift_up(parent);
 		}
 		return;
@@ -44,13 +43,13 @@ class Heap {
 	void sift_down(const size_t &dex){
 		size_t spawn = 2*dex+1;
 		if(!bounds(spawn)) return;
-		if((!bounds(spawn+1))||comp(data[spawn],data[spawn+1])){
-			if(!comp(data[dex], data[spawn])){
+		if((!bounds(spawn+1))||(data[spawn]<data[spawn+1])){
+			if(!(data[dex]<data[spawn])){
 				swapper(dex, spawn);
 				sift_down(spawn);
 			}
 		}
-		else if(!comp(data[dex], data[spawn+1])){
+		else if(!(data[dex]<data[spawn+1])){
 			swapper(dex, spawn+1);
 			sift_down(spawn+1);
 		}
@@ -63,12 +62,12 @@ public:
 		data.push_back(in);
 		sift_up(data.size()-1);
 	}
+	size_t size(){return data.size();}
 	void print(){
 		for(T n:data){
-			std::cout << n -> get_count() << std::endl;
+			std::cout << n << std::endl;
 		}
 	}
-	T& top(){return data.front();}
 	T pop(){
 		T temp = data.front();
 		if(data.size()<1){
@@ -81,7 +80,4 @@ public:
 		sift_down(0);
 		return temp;
 	}
-    int get_size() {
-        return data.size();
-    }
 };

@@ -33,4 +33,5 @@ class bit_buffer{
 	public:
 	void encode(const array<cipher::encoding,256> &dict, stringstream &text);
 	void decode(/*stringstream&,*/string name, cipher::decode_table&);
+	
 };

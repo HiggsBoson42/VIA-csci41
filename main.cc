@@ -29,6 +29,11 @@ struct sym {
     }
 };
 
+struct code_size {
+    uint32_t length = 0; // how many levels down the tree
+    uint32_t count = 0; // how many non-null/non-empty strings in a level
+};
+
 void levels(Node*, uint32_t, vector<sym>&);
 
 bool sym_comp(const sym &a, const sym &b) { // use to sort vector<sym> by levels
@@ -48,6 +53,7 @@ int main() {
     vector<Node*> elements;
     vector<sym> char_levels; // stores each letter and its levels (in sym)
     deque<string> just_strings; // stores just letters; order of letters matches that of char_levels
+    vector<code_size> codes;
 
     // cout << "Enter your file path: ";
     // getline(cin, filename);
@@ -87,12 +93,26 @@ int main() {
     sort(char_levels.begin(), char_levels.end(), sym_comp);
     
     for (size_t i = 0; i < char_levels.size(); i++) {
-        // cout << char_levels.at(i).letter << ": " << char_levels.at(i).size << endl;
+        cout << char_levels.at(i).letter << ": " << char_levels.at(i).size << endl;
         just_strings.push_back(char_levels.at(i).letter);
     
     }
     for (size_t i = 0; i < just_strings.size(); i++) {
         // cout << just_strings.at(i) << endl;
+    }
+    
+    // size should already be sorted
+    // get frequency of levels and store them in vector<code_size> codes
+    for (uint32_t i = char_levels.at(0).size; i <= char_levels.back().size; i++) {
+        uint32_t freq = 0;
+        for (size_t j = 0; j < char_levels.size(); j++) {
+            if (char_levels.at(j).size == i) { freq++; }
+        }
+        if (freq != 0) { codes.push_back({i, freq}); }
+    }
+    
+    for (size_t i = 0; i < codes.size(); i++) {
+        cout << codes.at(i).length << ": " << codes.at(i).count << endl;
     }
 
     return 0;
